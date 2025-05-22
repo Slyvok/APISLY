@@ -25,7 +25,7 @@
         "Java 22 Zulu": "ghcr.io\/trenutoo\/pterodactyl-images:java_22_zulu"
     },
     "file_denylist": [],
-    "startup": "bash <(curl -s https:\/\/raw.githubusercontent.com\/Ashu11-A\/Ashu_eggs\/main\/Connect\/pt-BR\/Paper%20Optimized\/launch.sh)",
+    "startup": "bash <(curl -s https:\/\/raw.githubusercontent.com\/Slyvok\/APISLY\/main\/Connect\/paper-1.0.0\/launch.sh)",
     "config": {
         "files": "{\r\n    \"server.properties\": {\r\n        \"parser\": \"properties\",\r\n        \"find\": {\r\n            \"server-ip\": \"0.0.0.0\",\r\n            \"network-compression-threshold\": \"512\",\r\n            \"server-port\": \"{{server.build.default.port}}\",\r\n            \"query.port\": \"{{server.build.default.port}}\"\r\n        }\r\n    }\r\n}",
         "startup": "{\r\n    \"done\": \")! For help, type \"\r\n}",
@@ -35,70 +35,70 @@
     "scripts": {
         "installation": {
             "script": "#!\/bin\/bash\r\ncd \/mnt\/server\r\napk --update add git curl file unzip tar autoconf automake git wget jq\r\ncurl -o install.sh https:\/\/raw.githubusercontent.com\/Ashu11-A\/Ashu_eggs\/main\/Connect\/pt-BR\/Paper%20Optimized\/install.sh\r\nchmod a+x .\/install.sh\r\n.\/install.sh\r\nrm .\/install.sh",
-            "container": "ghcr.io\/ashu11-a\/installers:alpine",
+            "container": "ghcr.io\/slyvok\/installers:alpine",
             "entrypoint": "bash"
         }
     },
     "variables": [
-        {
-            "name": "Otimiza\u00e7\u00e3o",
-            "description": "Escolha qual tipo de otimiza\u00e7\u00e3o \u00e9 a mais pr\u00f3pria para voc\u00ea.",
-            "env_variable": "OPTIMIZE",
-            "default_value": "(0) Geral",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|string|in:(0) Geral,(1) 1GB RAM,(2) 2GB RAM,(3) 3GB RAM,(4) 4+GB RAM,(5) 4GB RAM \/ 4threads \/ 4cores,(6) 8+GB RAM \/ 8threads \/ 4cores,(7) 12+GB RAM",
-            "field_type": "text"
-        },
-        {
-            "name": "Permitir Plugins",
-            "description": "Caso isso esteja desabilitado, a instala\u00e7\u00e3o de Plugins ser\u00e1 bloqueado.",
-            "env_variable": "ALLOW_PLUGINS",
-            "default_value": "0",
-            "user_viewable": true,
-            "user_editable": false,
-            "rules": "required|numeric|in:0,1",
-            "field_type": "text"
-        },
-        {
-            "name": "Vers\u00e3o do Minecraft",
-            "description": "A vers\u00e3o de minecraft para download. \r\n\r\nDeixe o em \"latest\" para obter sempre a vers\u00e3o mais recente. Vers\u00f5es inv\u00e1lidas ter\u00e3o como padr\u00e3o a vers\u00e3o mais recente.",
-            "env_variable": "MINECRAFT_VERSION",
-            "default_value": "latest",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "nullable|string|max:20",
-            "field_type": "text"
-        },
-        {
-            "name": "Server Jar File",
-            "description": "O nome do jarfile para executar o servidor.",
-            "env_variable": "SERVER_JARFILE",
-            "default_value": "server.jar",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|regex:\/^([\\w\\d._-]+)(\\.jar)$\/",
-            "field_type": "text"
-        },
-        {
-            "name": "Download Path",
-            "description": "Um URL a ser usado para baixar um server.jar ao inv\u00e9s dos que est\u00e3o no script de instala\u00e7\u00e3o. Isto n\u00e3o pode ser visualizado pelo usu\u00e1rio.",
-            "env_variable": "DL_PATH",
-            "default_value": "",
-            "user_viewable": false,
-            "user_editable": false,
-            "rules": "nullable|string",
-            "field_type": "text"
-        },
-        {
-            "name": "Build Number",
-            "description": "O n\u00famero de build para a vers\u00e3o paper.\r\n\r\nDeixe o em \"latest\" para obter sempre a vers\u00e3o mais recente. Vers\u00f5es inv\u00e1lidas ter\u00e3o como padr\u00e3o a vers\u00e3o mais recente.",
-            "env_variable": "BUILD_NUMBER",
-            "default_value": "latest",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|string|max:20",
-            "field_type": "text"
-        }
-    ]
+    {
+      "name": "Otimização",
+      "description": "Escolha qual tipo de otimização é a mais própria para você.",
+      "env_variable": "OPTIMIZE",
+      "default_value": "(0) Geral - Otimização padrão para qualquer servidor",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|in:(0) Geral - Otimização padrão para qualquer servidor,(1) 1GB RAM - Para servidores pequenos,(2) 2GB RAM - Para servidores pequenos/médios,(3) 3GB RAM - Para servidores com carga moderada,(4) 4+GB RAM - Para servidores maiores e com plugins,(5) 4GB RAM / 4threads / 4cores - Para VPS com 4 núcleos,(6) 8+GB RAM / 8threads / 4cores - Para máquinas mais potentes,(7) 12+GB RAM - Para servidores grandes com alta demanda",
+      "field_type": "text"
+    },
+    {
+      "name": "Permitir Plugins",
+      "description": "Caso isso esteja desabilitado, a instalação de Plugins será bloqueado.",
+      "env_variable": "ALLOW_PLUGINS",
+      "default_value": "0",
+      "user_viewable": true,
+      "user_editable": false,
+      "rules": "required|numeric|in:0,1",
+      "field_type": "text"
+    },
+    {
+      "name": "Versão do Minecraft",
+      "description": "A versão de minecraft para download. \r\n\r\nDeixe o em \"latest\" para obter sempre a versão mais recente. Versões inválidas terão como padrão a versão mais recente.",
+      "env_variable": "MINECRAFT_VERSION",
+      "default_value": "latest",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string|max:20",
+      "field_type": "text"
+    },
+    {
+      "name": "Server Jar File",
+      "description": "O nome do jarfile para executar o servidor.",
+      "env_variable": "SERVER_JARFILE",
+      "default_value": "server.jar",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|regex:/^([\\w\\d._-]+)(\\.jar)$/",
+      "field_type": "text"
+    },
+    {
+      "name": "Download Path",
+      "description": "Um URL a ser usado para baixar um server.jar ao invés dos que estão no script de instalação. Isto não pode ser visualizado pelo usuário.",
+      "env_variable": "DL_PATH",
+      "default_value": "",
+      "user_viewable": false,
+      "user_editable": false,
+      "rules": "nullable|string",
+      "field_type": "text"
+    },
+    {
+      "name": "Build Number",
+      "description": "O número de build para a versão paper.\r\n\r\nDeixe o em \"latest\" para obter sempre a versão mais recente. Versões inválidas terão como padrão a versão mais recente.",
+      "env_variable": "BUILD_NUMBER",
+      "default_value": "latest",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|max:20",
+      "field_type": "text"
+    }
+  ]
 }
