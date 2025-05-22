@@ -79,10 +79,6 @@ echo
 
 # Contagem regressiva
 echo "${bold}⏳ Servidor iniciando em 5 segundos...${normal}"
-for i in 5 4 3 2 1 Carregando; do
-    echo "${yellow}${i}...${normal}"
-    sleep 1
-done
 
 # Iniciar servidor
 exec $START
