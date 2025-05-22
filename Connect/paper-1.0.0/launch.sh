@@ -1,16 +1,28 @@
 #!/bin/bash
 # shellcheck shell=dash
+
 bold=$(echo -en "\e[1m")
-lightpurple=$(echo -en "\e[95m")
+lightblue=$(echo -en "\e[94m")
 yellow=$(echo -en "\e[93m")
 green=$(echo -en "\e[92m")
 red=$(echo -en "\e[91m")
+purple=$(echo -en "\e[95m")
 normal=$(echo -en "\e[0m")
+
+# Função para detectar versão Minecraft + Fabric a partir do JAR
+detect_mc_api_version() {
+    local jar_file="${SERVER_JARFILE:-server.jar}"
+    if [[ -f "$jar_file" ]]; then
+        unzip -p "$jar_file" version.json 2>/dev/null | grep -oP '"name"\s*:\s*"\K[^"]+' || echo "Indefinido"
+    else
+        echo "Indefinido"
+    fi
+}
 
 # Função para obter versão da API do Egg com validação
 get_api_version() {
     local response
-    response=$(curl -s --max-time 3 http://200.9.155.163:25566/version)
+    response=$(curl -s --max-time 3 http://200.9.155.163:25566/egg-version)
     if echo "$response" | grep -q '"version"'; then
         echo "$response" | grep -oP '"version"\s*:\s*"\K[^"]+'
     else
@@ -18,18 +30,12 @@ get_api_version() {
     fi
 }
 
-# Obter versão da API do Egg
+# Obter versões
+MC_API_VERSION=$(detect_mc_api_version)
 EGG_API_VERSION=$(get_api_version)
 
-# Definir memória disponível, se não definida
-if [ -z "${MEMORY_AVAILABLE}" ]; then
-    MEMORY_AVAILABLE=$(free -m | awk '/^Mem:/{print $2}')
-fi
-
-# Validar variável de otimização e definir comando START
-if [ -z "${OPTIMIZE}" ]; then
-    OPTIMIZE="(0) Geral"
-fi
+# Detectar memória disponível no Pterodactyl
+MEMORY_AVAILABLE="${SERVER_MEMORY:-$(free -m | awk '/^Mem:/{print $2}')}"
 
 if [ "${OPTIMIZE}" = "(0) Geral" ]; then
     START="java -Xms128M -Xmx${MEMORY_AVAILABLE}M -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar ${SERVER_JARFILE:-server.jar}"
@@ -62,7 +68,7 @@ echo "${lightpurple}╔═══════════════════
 echo "${lightpurple}║${normal}                         ${bold}⚙️  Informações do Servidor  ⚙️${normal}                          ${lightpurple}║${normal}"
 echo "${lightpurple}╠════════════════════════════════════════════════════════════════════════════════╣${normal}"
 
-printf "${lightpurple}║${normal}  🕹️  - Versão da API Minecraft: ${green}${bold}%-20s${normal}${lightpurple}                            ║${normal}\n" "${MC_API_VERSION:-Indefinido}"
+printf "${lightpurple}║${normal}  🕹️  - Versão da API Minecraft: ${green}${bold}%-20s${normal}${lightpurple}                            ║${normal}\n" "${MC_API_VERSION}"
 printf "${lightpurple}║${normal}  💾  - Memória disponível: ${green}${bold}%-6s MB${normal}${lightpurple}                                             ║${normal}\n" "$MEMORY_AVAILABLE"
 printf "${lightpurple}║${normal}  🥚  - Versão da API do Egg: ${green}${bold}%-20s${normal}${lightpurple}                                ║${normal}\n" "$EGG_API_VERSION"
 printf "${lightpurple}║${normal}  🚀  - Otimização escolhida: ${yellow}${bold}%-30s${normal}${lightpurple}                    ║${normal}\n" "$OPTIMIZE"
