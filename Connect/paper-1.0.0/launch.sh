@@ -1,6 +1,8 @@
 #!/bin/bash
 # shellcheck shell=dash
 
+clear
+
 bold=$(echo -en "\e[1m")
 lightblue=$(echo -en "\e[94m")
 green=$(echo -en "\e[92m")
@@ -82,5 +84,12 @@ else
 fi
 
 echo ""
+echo -e "${bold}⏳ Iniciando o servidor em 5 segundos...${normal}"
+for i in $(seq 5 -1 1); do
+    echo -ne "${yellow}${i}...${normal}\r"
+    sleep 1
+done
+echo -e "\n"
+
 printf "Executando otimização: ${bold}${lightblue}${OPTIMIZE} ${normal}\nCom os argumentos: ${bold}${lightblue}$START ${normal}\n"
 $START
