@@ -1,74 +1,74 @@
 #!/bin/bash
+# shellcheck shell=dash
+bold=$(echo -en "\e[1m")
+lightblue=$(echo -en "\e[94m")
+normal=$(echo -en "\e[0m")
 
-# Definição de cores e estilos
-reset="\e[0m"
-bold="\e[1m"
-lightblue="\e[94m"
-yellow="\e[93m"
-green="\e[92m"
-purple="\e[95m"
+if [ -z "${OPTIMIZE}" ]; then ## Caso a variavel ${OPTIMIZE} não existir por algum motivo desconhecido
+    START="java -Xms128M -Xmx${SERVER_MEMORY}M -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar ${SERVER_JARFILE}"
+else
+    if [ "${OPTIMIZE}" = "(0) Geral" ]; then
+    START="java -Xms128M -Xmx${SERVER_MEMORY}M -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar ${SERVER_JARFILE}"
 
-# Configurações padrão (altere aqui se quiser)
-ALLOW_PLUGINS=1          # 1 = plugins permitidos e ativados, 0 = plugins desativados (não excluídos)
-SERVER_MEMORY=16384      # Memória em MB
-SERVER_JARFILE="server.jar"
-OPTIMIZE=6               # Otimização selecionada (de 1 a 6)
+    elif [ "${OPTIMIZE}" = "(1) 1GB RAM" ]; then
+    START="java -Xmx1G -Xms1G -Xmn128m -XX:+DisableExplicitGC -XX:+UseNUMA -XX:MaxTenuringThreshold=15 -XX:MaxGCPauseMillis=30 -XX:GCPauseIntervalMillis=150 -XX:-UseGCOverheadLimit -XX:+UseBiasedLocking -XX:SurvivorRatio=8 -XX:TargetSurvivorRatio=90 -XX:MaxTenuringThreshold=15 -Dfml.ignorePatchDiscrepancies=true -Dfml.ignoreInvalidMinecraftCertificates=true -XX:+UseCompressedOops -XX:+OptimizeStringConcat  -XX:ReservedCodeCacheSize=2048m -XX:+UseCodeCacheFlushing -XX:SoftRefLRUPolicyMSPerMB=2000 -XX:ParallelGCThreads=10 -jar ${SERVER_JARFILE}"
 
-# Otimizações disponíveis
-declare -A OPTIMIZATIONS
-OPTIMIZATIONS[1]="1GB RAM / 1 thread / 1 core"
-OPTIMIZATIONS[2]="4GB RAM / 2 threads / 2 cores"
-OPTIMIZATIONS[3]="6GB RAM / 4 threads / 2 cores"
-OPTIMIZATIONS[4]="8GB RAM / 4 threads / 4 cores"
-OPTIMIZATIONS[5]="12GB RAM / 6 threads / 4 cores"
-OPTIMIZATIONS[6]="16GB RAM / 8 threads / 4 cores"
+    elif [ "${OPTIMIZE}" = "(2) 2GB RAM" ]; then
+    START="java -Xms2G -Xmx2G  -Xmn384m -XX:+DisableExplicitGC -XX:+UseNUMA -XX:MaxTenuringThreshold=15 -XX:MaxGCPauseMillis=30 -XX:GCPauseIntervalMillis=150 -XX:-UseGCOverheadLimit -XX:+UseBiasedLocking -XX:SurvivorRatio=8 -XX:TargetSurvivorRatio=90 -XX:MaxTenuringThreshold=15 -Dfml.ignorePatchDiscrepancies=true -Dfml.ignoreInvalidMinecraftCertificates=true -XX:+UseCompressedOops -XX:+OptimizeStringConcat  -XX:ReservedCodeCacheSize=2048m -XX:+UseCodeCacheFlushing -XX:SoftRefLRUPolicyMSPerMB=2000 -XX:ParallelGCThreads=10 -jar ${SERVER_JARFILE}"
 
-# Descrição da otimização escolhida
-OPTIMIZE_DESC="${OPTIMIZATIONS[$OPTIMIZE]}"
+    elif [ "${OPTIMIZE}" = "(3) 3GB RAM" ]; then
+    START="java -Xms3G -Xmx3G -Xmn768m -XX:+DisableExplicitGC -XX:+UseNUMA -XX:MaxTenuringThreshold=15 -XX:MaxGCPauseMillis=30 -XX:GCPauseIntervalMillis=150 -XX:-UseGCOverheadLimit -XX:+UseBiasedLocking -XX:SurvivorRatio=8 -XX:TargetSurvivorRatio=90 -XX:MaxTenuringThreshold=15 -Dfml.ignorePatchDiscrepancies=true -Dfml.ignoreInvalidMinecraftCertificates=true -XX:+UseCompressedOops -XX:+OptimizeStringConcat  -XX:ReservedCodeCacheSize=2048m -XX:+UseCodeCacheFlushing -XX:SoftRefLRUPolicyMSPerMB=10000 -XX:ParallelGCThreads=10 -jar ${SERVER_JARFILE}"
 
-print_interface() {
-    clear
-    echo -e "${bold}${lightblue}"
-    echo "╔══════════════════════════════════════════════════════════════════════╗"
-    echo "║                       🚀 INICIALIZANDO SERVIDOR MC 🚀                 ║"
-    echo "╠══════════════════════════════════════════════════════════════════════╣"
-    # Otimização
-    printf "║ Otimização selecionada: ${yellow}%-53s${lightblue} ║\n" "$OPTIMIZE_DESC"
-    # Memória
-    printf "║ Memória alocada:       ${yellow}%-53s${lightblue} ║\n" "${SERVER_MEMORY} MB"
-    # Arquivo do servidor
-    printf "║ Arquivo do servidor:   ${yellow}%-53s${lightblue} ║\n" "$SERVER_JARFILE"
-    echo "╠══════════════════════════════════════════════════════════════════════╣"
-    echo "║ Status da API:                                                      ║"
-    echo "║   ✅ API detectada                                                    ║"
-    echo "╠══════════════════════════════════════════════════════════════════════╣"
-    echo "║ Status do Egg:                                                      ║"
-    echo "║   ⚠️ Arquivo .version não encontrado.                                                    ║"
-    echo "╠══════════════════════════════════════════════════════════════════════╣"
-    echo "║ Plugins:                                                           ║"
-    if [ "$ALLOW_PLUGINS" = "1" ]; then
-        echo -e "║   ${green}Permitidos e ativados${lightblue}                                               ║"
-    else
-        echo -e "║   ${yellow}Desativados (não serão executados)${lightblue}                                ║"
+    elif [ "${OPTIMIZE}" = "(4) 4+GB RAM" ]; then
+    START="java -Xms3584M -Xmx4G -Xmn768m -XX:+DisableExplicitGC -XX:+UseNUMA -XX:MaxTenuringThreshold=15 -XX:MaxGCPauseMillis=30 -XX:GCPauseIntervalMillis=150 -XX:-UseGCOverheadLimit -XX:+UseBiasedLocking -XX:SurvivorRatio=8 -XX:TargetSurvivorRatio=90 -XX:MaxTenuringThreshold=15 -Dfml.ignorePatchDiscrepancies=true -Dfml.ignoreInvalidMinecraftCertificates=true -XX:+UseCompressedOops -XX:+OptimizeStringConcat  -XX:ReservedCodeCacheSize=2048m -XX:+UseCodeCacheFlushing -XX:SoftRefLRUPolicyMSPerMB=10000 -XX:ParallelGCThreads=10 -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -XX:+PerfDisableSharedMem -XX:-UsePerfData -jar ${SERVER_JARFILE}"
+
+    elif [ "${OPTIMIZE}" = "(5) 4GB RAM / 4threads / 4cores" ]; then
+    START="java -Xms2G -Xmx2G -Xmn384m -XX:+AlwaysPreTouch -XX:+DisableExplicitGC -XX:+ParallelRefProcEnabled -XX:+PerfDisableSharedMem -XX:+UseCompressedOops -XX:-UsePerfData -XX:MaxGCPauseMillis=200 -XX:ParallelGCThreads=4 -XX:ConcGCThreads=2 -XX:+UseG1GC -XX:InitiatingHeapOccupancyPercent=50 -XX:G1HeapRegionSize=1 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=8 -jar ${SERVER_JARFILE}"
+
+    elif [ "${OPTIMIZE}" = "(6) 8+GB RAM / 8threads / 4cores" ]; then
+    START="java -Xms4G -Xmx4G -Xmn512m -XX:+AlwaysPreTouch -XX:+DisableExplicitGC -XX:+ParallelRefProcEnabled -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:MaxGCPauseMillis=200 -XX:ParallelGCThreads=8 -XX:ConcGCThreads=2 -XX:+UseG1GC -XX:InitiatingHeapOccupancyPercent=50 -XX:G1HeapRegionSize=1 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=8 -jar ${SERVER_JARFILE}"
+
+    elif [ "${OPTIMIZE}" = "(7) 12+GB RAM" ]; then
+    START="java -Xms11G -Xmx11G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=40 -XX:G1MaxNewSizePercent=50 -XX:G1HeapRegionSize=16M -XX:G1ReservePercent=15 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=20 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar ${SERVER_JARFILE}"
     fi
-    echo "╠══════════════════════════════════════════════════════════════════════╣"
-    echo "║ Notificações:                                                      ║"
-    echo -e "║ ${green}✔ Nenhuma ação pendente.${lightblue}                                              ║"
-    echo "╚══════════════════════════════════════════════════════════════════════╝"
-    echo -e "\n${purple}✨ SlyProductions - Feito por Slyvok ✨${reset}\n"
-}
+fi
 
-start_server() {
-    if [ "$ALLOW_PLUGINS" = "1" ]; then
-        echo -e "${green}Iniciando servidor com plugins ativados...${reset}"
-    else
-        echo -e "${yellow}Iniciando servidor sem executar plugins...${reset}"
+if [ "${ALLOW_PLUGINS}" = "0" ]; then
+    if [ -d "plugins" ]; then
+        if ls plugins/*.jar 1> /dev/null 2>&1; then
+            echo "⚠️  Aviso: Plugins foram instalados, mas o servidor está configirado para não permitir plugins."
+            rm -f plugins/*.jar
+        fi
     fi
+fi
 
-    # Exemplo de comando para iniciar o servidor:
-    # java -Xmx${SERVER_MEMORY}M -jar ${SERVER_JARFILE} nogui
-}
+EGG_API_VERSION=$(get_version "http://200.9.155.163:25566/egg-version" "version")
 
-# Executa
-print_interface
-start_server
+clear
+
+echo "${lightblue}╔════════════════════════════════════════╗${normal}"
+echo "${lightblue}║${normal}          ${bold}⚙️  Informações do Servidor  ⚙️${normal}          ${lightblue}║${normal}"
+echo "${lightblue}╠════════════════════════════════════════╣${normal}"
+
+echo "${lightblue}║${normal}  🕹️  Versão da API Minecraft:  ${green}${bold}${MC_API_VERSION}${normal}${lightblue}               ║${normal}"
+echo "${lightblue}║${normal}  💾 Memória disponível:        ${green}${bold}${MEMORY_AVAILABLE} MB${normal}${lightblue}              ║${normal}"
+echo "${lightblue}║${normal}  🥚 Versão da API do Egg:       ${green}${bold}${EGG_API_VERSION}${normal}${lightblue}               ║${normal}"
+echo "${lightblue}║${normal}  🚀 Otimização escolhida:      ${yellow}${bold}${OPTIMIZE:-Padrão}${normal}${lightblue}              ║${normal}"
+
+echo "${lightblue}╠════════════════════════════════════════╣${normal}"
+echo "${lightblue}║${normal}  📝 Comando de inicialização:${normal}"
+echo "${lightblue}║${normal}  ${bold}${START}${normal}"
+echo "${lightblue}╠════════════════════════════════════════╣${normal}"
+echo "${lightblue}║${normal}  © ${red}SlyProductions${normal}                                     ${lightblue}║${normal}"
+echo "${lightblue}╚════════════════════════════════════════╝${normal}"
+echo
+
+echo "${bold}⏳ Servidor iniciando em 5 segundos...${normal}"
+
+for i in 5 4 3 2 1; do
+    echo "${yellow}${i}...${normal}"
+    sleep 1
+done
+
+# Executa o comando para iniciar o servidor
+$START
