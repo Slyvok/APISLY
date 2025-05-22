@@ -17,23 +17,23 @@ print_interface() {
     echo -e "${bold}${lightblue}"
     echo "╔══════════════════════════════════════════════════════╗"
     echo "║                                                      ║"
-    echo "║             🚀  INICIALIZANDO SERVIDOR MC 🚀          ║"
+    echo "║             🚀  INICIALIZANDO SERVIDOR MC 🚀        ║"
     echo "║                                                      ║"
     echo "╠══════════════════════════════════════════════════════╣"
     echo "║                                                      ║"
-    echo "║  Otimização selecionada: ${yellow}${OPTIMIZE:-"Padrão"}${lightblue}                  ║"
+    echo "║  Otimização selecionada: ${yellow}${OPTIMIZE:-"Padrão"}${lightblue}                ║"
     echo "║                                                      ║"
     echo "╠══════════════════════════════════════════════════════╣"
     echo "║                                                      ║"
-    echo "║  Status da API:                                       ║"
+    echo "║  Status da API:                                      ║"
     echo "║                                                      ║"
-    echo "║  $API_STATUS                                          ║"
+    echo "║  $API_STATUS                                         ║"
     echo "║                                                      ║"
     echo "╠══════════════════════════════════════════════════════╣"
     echo "║                                                      ║"
-    echo "║  Status do Egg:                                       ║"
+    echo "║  Status do Egg:                                      ║"
     echo "║                                                      ║"
-    echo "║  $EGG_STATUS                                          ║"
+    echo "║  $EGG_STATUS                                         ║"
     echo "║                                                      ║"
     echo "╚══════════════════════════════════════════════════════╝"
     echo ""
@@ -106,8 +106,8 @@ if [ -f "$LOCAL_VERSION_FILE" ]; then
         if [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
             EGG_STATUS="${yellow}⚠️ Atualização disponível! Versão local: ${LOCAL_VERSION}, remota: ${REMOTE_VERSION}${normal}"
             print_interface
-            echo -e "${red}⛔ Atualize o Egg antes de continuar. Inicialização cancelada.${normal}"
-            exit 1
+            echo -e "${yellow}⛔ Aviso: Atualização disponível, mas a inicialização continuará.${normal}"
+            # NÃO encerra o script
         else
             EGG_STATUS="${green}✅ Você está usando a versão mais recente do Egg: ${LOCAL_VERSION}${normal}"
         fi
@@ -116,21 +116,13 @@ if [ -f "$LOCAL_VERSION_FILE" ]; then
     fi
 else
     EGG_STATUS="${red}⚠️ Arquivo .version não encontrado.${normal}"
+    print_interface
+    echo -e "${yellow}⚠️ Aviso: Arquivo de versão local não encontrado, inicialização continuará.${normal}"
 fi
 
+# Imprime interface final
 print_interface
 
-# Contagem regressiva estilizada
-echo -e "${bold}${yellow}Iniciando servidor em:${normal}"
-for i in $(seq 5 -1 1); do
-    echo -ne "  ${bold}${yellow}${i}${normal}... \r"
-    sleep 1
-done
-echo -e "\n"
-
-# Exibe otimização e comando para rodar
-echo -e "${bold}Executando otimização:${normal} ${lightblue}${OPTIMIZE:-"Padrão"}${normal}"
-echo -e "${bold}Comando:${normal} ${lightblue}$START${normal}\n"
-
-# Executa o servidor com exec (substitui o processo atual)
+# Inicia o servidor
+echo -e "${green}Iniciando servidor com o comando:${normal} ${START}"
 exec $START
