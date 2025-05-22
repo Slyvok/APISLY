@@ -1,7 +1,7 @@
 #!/bin/bash
 # shellcheck shell=dash
 bold=$(echo -en "\e[1m")
-lightblue=$(echo -en "\e[94m")
+lightpurple=$(echo -en "\e[95m")
 yellow=$(echo -en "\e[93m")
 green=$(echo -en "\e[92m")
 red=$(echo -en "\e[91m")
@@ -56,27 +56,30 @@ elif [ "${OPTIMIZE}" = "(7) 12+GB RAM" ]; then
     START="java -Xms11G -Xmx11G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=40 -XX:G1MaxNewSizePercent=50 -XX:G1HeapRegionSize=16M -XX:G1ReservePercent=15 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=20 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar ${SERVER_JARFILE:-server.jar}"
 fi
 # Exibir informações formatadas
+# Interface
 clear
-echo "${lightblue}╔════════════════════════════════════════════════════════════════════════════════╗${normal}"
-echo "${lightblue}║${normal}                           ${bold}⚙️  Informações do Servidor  ⚙️${normal}                           ${lightblue}║${normal}"
-echo "${lightblue}╠════════════════════════════════════════════════════════════════════════════════╣${normal}"
+echo "${lightpurple}╔════════════════════════════════════════════════════════════════════════════════╗${normal}"
+echo "${lightpurple}║${normal}                           ${bold}⚙️  Informações do Servidor  ⚙️${normal}                           ${lightpurple}║${normal}"
+echo "${lightpurple}╠════════════════════════════════════════════════════════════════════════════════╣${normal}"
 
-printf "${lightblue}║${normal}  🕹️  Versão da API Minecraft:  ${green}${bold}%-20s${normal}${lightblue}                                         ║${normal}\n" "${MC_API_VERSION:-Indefinido}"
-printf "${lightblue}║${normal}  💾 Memória disponível:        ${green}${bold}%-6s MB${normal}${lightblue}                                                 ║${normal}\n" "$MEMORY_AVAILABLE"
-printf "${lightblue}║${normal}  🥚 Versão da API do Egg:       ${green}${bold}%-20s${normal}${lightblue}                                         ║${normal}\n" "$EGG_API_VERSION"
-printf "${lightblue}║${normal}  🚀 Otimização escolhida:      ${yellow}${bold}%-30s${normal}${lightblue}                                   ║${normal}\n" "$OPTIMIZE"
+printf "${lightpurple}║${normal}  🕹️  Versão da API Minecraft:  ${green}${bold}%-20s${normal}${lightpurple}                                         ║${normal}\n" "${MC_API_VERSION:-Indefinido}"
+printf "${lightpurple}║${normal}  💾 Memória disponível:        ${green}${bold}%-6s MB${normal}${lightpurple}                                                 ║${normal}\n" "$MEMORY_AVAILABLE"
+printf "${lightpurple}║${normal}  🥚 Versão da API do Egg:       ${green}${bold}%-20s${normal}${lightpurple}                                         ║${normal}\n" "$EGG_API_VERSION"
+printf "${lightpurple}║${normal}  🚀 Otimização escolhida:      ${yellow}${bold}%-30s${normal}${lightpurple}                                   ║${normal}\n" "$OPTIMIZE"
 
-echo "${lightblue}╠════════════════════════════════════════════════════════════════════════════════╣${normal}"
-echo "${lightblue}║${normal}  📝 Comando de inicialização:${normal}"
-echo "$START" | fold -s -w 78 | sed "s/^/${lightblue}║${normal}  /"
-echo "${lightblue}╠════════════════════════════════════════════════════════════════════════════════╣${normal}"
-echo "${lightblue}║${normal}  © ${red}SlyProductions${normal}                                                             ${lightblue}║${normal}"
-echo "${lightblue}╚════════════════════════════════════════════════════════════════════════════════╝${normal}"
+echo "${lightpurple}╠════════════════════════════════════════════════════════════════════════════════╣${normal}"
+echo "${lightpurple}║${normal}  📝 Comando de inicialização:${normal}"
+
+echo "$START" | fold -s -w 78 | sed "s/^/${lightpurple}║${normal}  /"
+
+echo "${lightpurple}╠════════════════════════════════════════════════════════════════════════════════╣${normal}"
+echo "${lightpurple}║${normal}  © ${red}SlyProductions${normal}                                                             ${lightpurple}║${normal}"
+echo "${lightpurple}╚════════════════════════════════════════════════════════════════════════════════╝${normal}"
 echo
 
 # Contagem regressiva
 echo "${bold}⏳ Servidor iniciando em 5 segundos...${normal}"
-for i in 5 4 3 2 1; do
+for i in 5 4 3 2 1 Iniciando Servidor...; do
     echo "${yellow}${i}...${normal}"
     sleep 1
 done
