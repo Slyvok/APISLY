@@ -50,14 +50,23 @@ echo "${lightblue}╔═══════════════════�
 echo "${lightblue}║${normal}          ${bold}⚙️  Informações do Servidor  ⚙️${normal}          ${lightblue}║${normal}"
 echo "${lightblue}╠════════════════════════════════════════╣${normal}"
 
-echo "${lightblue}║${normal}  🕹️  Versão da API Minecraft:  ${green}${bold}${MC_API_VERSION}${normal}${lightblue}               ║${normal}"
-echo "${lightblue}║${normal}  💾 Memória disponível:        ${green}${bold}${MEMORY_AVAILABLE} MB${normal}${lightblue}              ║${normal}"
-echo "${lightblue}║${normal}  🥚 Versão da API do Egg:       ${green}${bold}${EGG_API_VERSION}${normal}${lightblue}               ║${normal}"
-echo "${lightblue}║${normal}  🚀 Otimização escolhida:      ${yellow}${bold}${OPTIMIZE:-Padrão}${normal}${lightblue}              ║${normal}"
+# Limita a largura das strings para não quebrar a linha
+MC_API_PRINT="${MC_API_VERSION:0:20}"
+MEMORY_PRINT="${MEMORY_AVAILABLE:0:6}"
+EGG_API_PRINT="${EGG_API_VERSION:0:20}"
+OPTIMIZE_PRINT="${OPTIMIZE:0:30}"
+
+printf "${lightblue}║${normal}  🕹️  Versão da API Minecraft:  ${green}${bold}%-20s${normal}${lightblue} ║${normal}\n" "$MC_API_PRINT"
+printf "${lightblue}║${normal}  💾 Memória disponível:        ${green}${bold}%-6s MB${normal}${lightblue}        ║${normal}\n" "$MEMORY_PRINT"
+printf "${lightblue}║${normal}  🥚 Versão da API do Egg:       ${green}${bold}%-20s${normal}${lightblue} ║${normal}\n" "$EGG_API_PRINT"
+printf "${lightblue}║${normal}  🚀 Otimização escolhida:      ${yellow}${bold}%-30s${normal}${lightblue}║${normal}\n" "$OPTIMIZE_PRINT"
 
 echo "${lightblue}╠════════════════════════════════════════╣${normal}"
 echo "${lightblue}║${normal}  📝 Comando de inicialização:${normal}"
-echo "${lightblue}║${normal}  ${bold}${START}${normal}"
+
+# Para o comando, quebra em múltiplas linhas se for muito longo:
+echo "${lightblue}║${normal}  ${bold}" | tr -d '\n'
+echo "$START" | fold -w 38 | sed 's/^/  /' | sed "s/^/${lightblue}║${normal}  /"
 echo "${lightblue}╠════════════════════════════════════════╣${normal}"
 echo "${lightblue}║${normal}  © ${red}SlyProductions${normal}                                     ${lightblue}║${normal}"
 echo "${lightblue}╚════════════════════════════════════════╝${normal}"
