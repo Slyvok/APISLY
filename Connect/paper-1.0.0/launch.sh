@@ -22,7 +22,7 @@ detect_mc_api_version() {
 # Função para obter versão da API do Egg com validação
 get_api_version() {
     local response
-    response=$(curl -s --max-time 3 http://200.9.155.163:25566/egg-version)
+    response=$(curl -s --max-time 3 http://200.9.155.163:25566/version)
     if echo "$response" | grep -q '"version"'; then
         echo "$response" | grep -oP '"version"\s*:\s*"\K[^"]+'
     else
@@ -68,7 +68,7 @@ echo "${lightpurple}╔═══════════════════
 echo "${lightpurple}║${normal}                         ${bold}⚙️  Informações do Servidor  ⚙️${normal}                          ${lightpurple}║${normal}"
 echo "${lightpurple}╠════════════════════════════════════════════════════════════════════════════════╣${normal}"
 
-printf "${lightpurple}║${normal}  🕹️  - Versão da API Minecraft: ${green}${bold}%-20s${normal}${lightpurple}                            ║${normal}\n" "${MC_API_VERSION}"
+printf "${lightpurple}║${normal}  🕹️  - Versão Minecraft: ${green}${bold}%-20s${normal}${lightpurple}                     ║${normal}\n" "${MC_API_VERSION}"
 printf "${lightpurple}║${normal}  💾  - Memória disponível: ${green}${bold}%-6s MB${normal}${lightpurple}                                             ║${normal}\n" "$MEMORY_AVAILABLE"
 printf "${lightpurple}║${normal}  🥚  - Versão da API do Egg: ${green}${bold}%-20s${normal}${lightpurple}                                ║${normal}\n" "$EGG_API_VERSION"
 printf "${lightpurple}║${normal}  🚀  - Otimização escolhida: ${yellow}${bold}%-30s${normal}${lightpurple}                    ║${normal}\n" "$OPTIMIZE"
