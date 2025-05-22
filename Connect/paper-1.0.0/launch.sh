@@ -57,22 +57,23 @@ elif [ "${OPTIMIZE}" = "(7) 12+GB RAM" ]; then
 fi
 # Exibir informações formatadas
 clear
-echo "${lightblue}╔════════════════════════════════════════════════════════════════════════════════════════════════════════╗${normal}"
-echo "${lightblue}║${normal}          ${bold}⚙️  Informações do Servidor  ⚙️${normal}          ${lightblue}║${normal}"
-echo "${lightblue}╠════════════════════════════════════════════════════════════════════════════════════════════════════════╣${normal}"
+echo "${lightblue}╔════════════════════════════════════════════════════════════════════════════════╗${normal}"
+echo "${lightblue}║${normal}                           ${bold}⚙️  Informações do Servidor  ⚙️${normal}                           ${lightblue}║${normal}"
+echo "${lightblue}╠════════════════════════════════════════════════════════════════════════════════╣${normal}"
 
-printf "${lightblue}║${normal}  🕹️  Versão da API Minecraft:  ${green}${bold}%-20s${normal}${lightblue} ║${normal}\n" "${MC_API_VERSION:-Indefinido}"
-printf "${lightblue}║${normal}  💾 Memória disponível:        ${green}${bold}%-6s MB${normal}${lightblue}        ║${normal}\n" "$MEMORY_AVAILABLE"
-printf "${lightblue}║${normal}  🥚 Versão da API do Egg:       ${green}${bold}%-20s${normal}${lightblue} ║${normal}\n" "$EGG_API_VERSION"
-printf "${lightblue}║${normal}  🚀 Otimização escolhida:      ${yellow}${bold}%-30s${normal}${lightblue}║${normal}\n" "$OPTIMIZE"
+printf "${lightblue}║${normal}  🕹️  Versão da API Minecraft:  ${green}${bold}%-20s${normal}${lightblue}                                         ║${normal}\n" "${MC_API_VERSION:-Indefinido}"
+printf "${lightblue}║${normal}  💾 Memória disponível:        ${green}${bold}%-6s MB${normal}${lightblue}                                                 ║${normal}\n" "$MEMORY_AVAILABLE"
+printf "${lightblue}║${normal}  🥚 Versão da API do Egg:       ${green}${bold}%-20s${normal}${lightblue}                                         ║${normal}\n" "$EGG_API_VERSION"
+printf "${lightblue}║${normal}  🚀 Otimização escolhida:      ${yellow}${bold}%-30s${normal}${lightblue}                                   ║${normal}\n" "$OPTIMIZE"
 
-echo "${lightblue}╠════════════════════════════════════════════════════════════════════════════════════════════════════════╣${normal}"
+echo "${lightblue}╠════════════════════════════════════════════════════════════════════════════════╣${normal}"
 echo "${lightblue}║${normal}  📝 Comando de inicialização:${normal}"
-echo "$START" | fold -s -w 76 | sed "s/^/${lightblue}║${normal}  /"
-echo "${lightblue}╠════════════════════════════════════════════════════════════════════════════════════════════════════════╣${normal}"
-echo "${lightblue}║${normal}  © ${red}SlyProductions${normal}                                     ${lightblue}║${normal}"
-echo "${lightblue}╚════════════════════════════════════════════════════════════════════════════════════════════════════════╝${normal}"
+echo "$START" | fold -s -w 78 | sed "s/^/${lightblue}║${normal}  /"
+echo "${lightblue}╠════════════════════════════════════════════════════════════════════════════════╣${normal}"
+echo "${lightblue}║${normal}  © ${red}SlyProductions${normal}                                                             ${lightblue}║${normal}"
+echo "${lightblue}╚════════════════════════════════════════════════════════════════════════════════╝${normal}"
 echo
+
 # Contagem regressiva
 echo "${bold}⏳ Servidor iniciando em 5 segundos...${normal}"
 for i in 5 4 3 2 1; do
