@@ -1,5 +1,6 @@
 #!/bin/bash
 # shellcheck shell=dash
+# feito por slyvok
 bold=$(echo -en "\e[1m")
 lightblue=$(echo -en "\e[94m")
 normal=$(echo -en "\e[0m")
