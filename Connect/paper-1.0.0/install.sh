@@ -2,6 +2,8 @@
 # shellcheck shell=dash
 # Paper Installation Script
 #
+#Projeto 100% da SlyProductions - 2025
+#Slyvok
 # Server Files: /mnt/server
 if [ -f "${SERVER_JARFILE}" ]; then
     bash <(curl -s https://raw.githubusercontent.com/Slyvok/SLY_API/main/Connect/paper-1.0.0/launch.sh)
