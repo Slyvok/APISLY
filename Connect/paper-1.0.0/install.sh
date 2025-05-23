@@ -4,7 +4,7 @@
 #
 # Server Files: /mnt/server
 if [ -f "${SERVER_JARFILE}" ]; then
-    bash <(curl -s https://raw.githubusercontent.com/Slyvok/APISLY/main/Connect/paper-1.0.0/launch.sh)
+    bash <(curl -s https://raw.githubusercontent.com/Slyvok/SLY_API/main/Connect/paper-1.0.0/launch.sh)
 else
     PROJECT=paper
     if [ -n "${DL_PATH}" ]; then
@@ -44,12 +44,12 @@ else
     if [ ! -f server.properties ]; then
         echo "Downloading MC server.properties"
         curl -o server.properties https://raw.githubusercontent.com/parkervcp/eggs/master/minecraft/java/server.properties
-        curl -o spigot.yml https://raw.githubusercontent.com/Slyvok/APISLY/main/Connect/pt-BR/paper-1.0.0/config/spigot.yml
-        curl -o bukkit.yml https://raw.githubusercontent.com/Slyvok/APISLY/main/Connect/paper-1.0.0/config/bukkit.yml
+        curl -o spigot.yml https://raw.githubusercontent.com/Slyvok/SLY_API/main/Connect/pt-BR/paper-1.0.0/config/spigot.yml
+        curl -o bukkit.yml https://raw.githubusercontent.com/Slyvok/SLY_API/main/Connect/paper-1.0.0/config/bukkit.yml
         mkdir -p config
         (
             cd config || exit
-            curl -o paper-world-defaults.yml https://raw.githubusercontent.com/Slyvok/APISLY/main/Connect/paper-1.0.0/config/paper-world-defaults.yml
+            curl -o paper-world-defaults.yml https://raw.githubusercontent.com/Slyvok/SLY_API/main/Connect/paper-1.0.0/config/paper-world-defaults.yml
         )
     fi
 fi
