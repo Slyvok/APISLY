@@ -9,6 +9,7 @@ yellow=$(echo -en "\e[93m")
 red=$(echo -en "\e[91m")
 green=$(echo -en "\e[92m")
 
+
 if [ -z "${OPTIMIZE}" ]; then ## Caso a variavel ${OPTIMIZE} não existir por algum motivo desconhecido
     START="java -Xms128M -Xmx${SERVER_MEMORY}M -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar ${SERVER_JARFILE}"
 else
@@ -47,7 +48,7 @@ if [ "${ALLOW_PLUGINS}" = "0" ]; then
     fi
 fi
 
-printf "${bold}${lightblue}🔧 Iniciando otimização:${normal} ${bold}${lightblue}%s${normal}\n📄 Argumentos recebidos: ${bold}${lightblue}%s${normal}\n" "$OPTIMIZE" "$START"
+printf "${bold}$🔧 Iniciando otimização:${normal} ${bold}${lightblue}%s${normal}\n📄 Argumentos recebidos: ${bold}${lightblue}%s${normal}\n" "$OPTIMIZE" "$START"
 printf "${bold}🚦 Processo de otimização iniciado.\n${normal}${yellow}⏱️ Aguarde alguns minutos conforme a complexidade do procedimento.\n⌛ O sistema está processando as operações necessárias...\n${normal}"
 printf "${red}${bold}⚠️ Atenção: não interrompa a execução para evitar perda de dados.${normal}\n"
 printf "${green}${bold}🎉 Otimização concluída com sucesso!${normal}\n"
