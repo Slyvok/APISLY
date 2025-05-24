@@ -75,11 +75,8 @@ if [ ! -f "${SERVER_JARFILE}" ]; then
     exit 1
 fi
 
-printf "${bold}${lightblue}🚀  Iniciando o servidor agora...\n\n${normal}"
+printf "${bold}${lightblue}🚀  - Iniciando o servidor agora...\n\n${normal}"
 sleep 1
-
-SLEEP_TIME=$(shuf -i 5-7 -n 1)
-sleep $SLEEP_TIME
 
 exec $START
 
