@@ -50,12 +50,13 @@ fi
 
 clear
 
-printf "🔧  - Iniciando otimização:${normal} ${bold}${lightblue}%s${normal}\n📄  - Argumentos recebidos: ${bold}${lightblue}%s${normal}\n"
+
+printf "${bold}$🔧  - Iniciando otimização:${normal} ${bold}${lightblue}%s${normal}\n📄  - Argumentos recebidos: ${bold}${lightblue}%s${normal}\n" "$OPTIMIZE" "$START"
 printf "${bold}🚦  - Processo de otimização iniciado.\n${normal}${yellow}⏱️  - Aguarde alguns minutos conforme a complexidade do procedimento.\n⌛  - O sistema está processando as operações necessárias...\n${normal}"
 printf "${bold}⚠️  - Atenção: ${red}não interrompa a execução para evitar perda de dados.${normal}\n"
 printf "${green}${bold}🎉  - Otimização concluída com sucesso!${normal}\n"
 
-SLEEP_TIME=$(shuf -i 3-5 -n 1)
+SLEEP_TIME=$(shuf -i 5-7 -n 1)
 sleep $SLEEP_TIME
 
 eval "$START"
