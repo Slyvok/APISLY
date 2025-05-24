@@ -54,7 +54,7 @@ printf "📄  - Argumentos recebidos: ${bold}${lightblue}%s${normal}\n" "$START"
 printf "${bold}🚦  - Processo de otimização iniciado.\n${normal}"
 
 
-printf "${yellow}⏱️  - Aguarde alguns minutos conforme a complexidade do procedimento.\n"
+printf "$⏱️  - {yellow}Aguarde alguns minutos conforme a complexidade do procedimento.\n"
 sleep 1
 printf "⌛  - O sistema está processando as operações necessárias...\n${normal}"
 sleep 2
