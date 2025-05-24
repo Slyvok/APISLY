@@ -39,24 +39,47 @@ else
     fi
 fi
 
-if [ "${ALLOW_PLUGINS}" = "0" ]; then
+if [ "${ALLOW_PLUGINS}" = "1" ]; then
     if [ -d "plugins" ]; then
         if ls plugins/*.jar 1> /dev/null 2>&1; then
             echo "⚠️  Aviso: Plugins foram instalados, mas o servidor está configirado para não permitir plugins."
-            rm -f plugins/*.jar
         fi
     fi
 fi
 
 clear
 
+printf "${bold}🔧  - Iniciando otimização: ${lightblue}%s${normal}\n" "$OPTIMIZE"
+sleep 2
 
-printf "${bold}$🔧  - Iniciando otimização:${normal} ${bold}${lightblue}%s${normal}\n📄  - Argumentos recebidos: ${bold}${lightblue}%s${normal}\n" "$OPTIMIZE" "$START"
-printf "${bold}🚦  - Processo de otimização iniciado.\n${normal}${yellow}⏱️  - Aguarde alguns minutos conforme a complexidade do procedimento.\n⌛  - O sistema está processando as operações necessárias...\n${normal}"
+printf "📄  - Argumentos recebidos: ${bold}${lightblue}%s${normal}\n" "$START"
+sleep 2
+
+printf "${bold}🚦  - Processo de otimização iniciado.\n${normal}"
+sleep 2
+
+printf "${yellow}⏱️  - Aguarde alguns minutos conforme a complexidade do procedimento.\n"
+sleep 2
+
+printf "⌛  - O sistema está processando as operações necessárias...\n${normal}"
+sleep 2
+
 printf "${bold}⚠️  - Atenção: ${red}não interrompa a execução para evitar perda de dados.${normal}\n"
+sleep 2
+
 printf "${green}${bold}🎉  - Otimização concluída com sucesso!${normal}\n"
+sleep 2
+
+if [ ! -f "${SERVER_JARFILE}" ]; then
+    printf "${red}❌ ERRO: Arquivo JAR '${SERVER_JARFILE}' não encontrado.${normal}\n"
+    exit 1
+fi
+
+printf "${bold}${lightblue}🚀  Iniciando o servidor agora...\n\n${normal}"
+sleep 1
 
 SLEEP_TIME=$(shuf -i 5-7 -n 1)
 sleep $SLEEP_TIME
 
-eval "$START"
+exec $START
+
