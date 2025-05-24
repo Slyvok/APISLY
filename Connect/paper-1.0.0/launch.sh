@@ -39,14 +39,6 @@ else
     fi
 fi
 
-if [ "${ALLOW_PLUGINS}" = "1" ]; then
-    if [ -d "plugins" ]; then
-        if ls plugins/*.jar 1> /dev/null 2>&1; then
-            echo "⚠️  Aviso: Plugins foram instalados, mas o servidor está configirado para não permitir plugins."
-        fi
-    fi
-fi
-
 clear
 
 printf "${bold}🔧  - Iniciando otimização: ${lightblue}%s${normal}\n" "$OPTIMIZE"
