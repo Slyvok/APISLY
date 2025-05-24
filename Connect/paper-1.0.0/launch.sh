@@ -50,25 +50,17 @@ fi
 clear
 
 printf "${bold}🔧  - Iniciando otimização: ${lightblue}%s${normal}\n" "$OPTIMIZE"
-sleep 2
-
 printf "📄  - Argumentos recebidos: ${bold}${lightblue}%s${normal}\n" "$START"
-sleep 2
-
 printf "${bold}🚦  - Processo de otimização iniciado.\n${normal}"
-sleep 2
+
 
 printf "${yellow}⏱️  - Aguarde alguns minutos conforme a complexidade do procedimento.\n"
-sleep 2
-
+sleep 1
 printf "⌛  - O sistema está processando as operações necessárias...\n${normal}"
 sleep 2
-
 printf "${bold}⚠️  - Atenção: ${red}não interrompa a execução para evitar perda de dados.${normal}\n"
-sleep 2
-
 printf "${green}${bold}🎉  - Otimização concluída com sucesso!${normal}\n"
-sleep 2
+sleep 1
 
 if [ ! -f "${SERVER_JARFILE}" ]; then
     printf "${red}❌ ERRO: Arquivo JAR '${SERVER_JARFILE}' não encontrado.${normal}\n"
@@ -76,7 +68,6 @@ if [ ! -f "${SERVER_JARFILE}" ]; then
 fi
 
 printf "${bold}${lightblue}🚀  - Iniciando o servidor agora...\n\n${normal}"
-sleep 1
 
 exec $START
 
